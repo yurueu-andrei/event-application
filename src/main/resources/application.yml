@@ -1,0 +1,13 @@
+database:
+  url: jdbc:postgresql://localhost:5432/postgres
+  user: postgres
+  password: postgres
+  driver: org.postgresql.Driver
+
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: true
+  format_sql: true
+
+entity:
+  path: com.yurueu.event.entity
