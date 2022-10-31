@@ -31,3 +31,15 @@ services:
         --username=postgres
         --password=postgres  
       update
+
+  task-event:
+    image: eclipse-temurin:17-alpine
+    container_name: task-event
+    depends_on:
+      - liquibase-event
+    volumes:
+      - ./:/usr/src/myapp
+    working_dir: /usr/src/myapp
+    command: sh -c "sleep 5 && java -jar ./build/libs/task-event-0.0.1-SNAPSHOT.jar"
+    ports:
+      - "8080:8080"
