@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,15 +16,15 @@ public class EventRepositoryImpl implements EventRepository {
     private final SessionFactory sessionFactory;
 
     private static final String SELECT_ALL_QUERY = """
-    SELECT *
-    FROM events
-    LIMIT :limit
-    OFFSET :offset
-    """;
+            SELECT *
+            FROM events
+            LIMIT :limit
+            OFFSET :offset
+            """;
     private static final String UPDATE_QUERY = """
-                UPDATE Event
-                SET topic = :topic, description = :description, organizer = :organizer, eventDate = :eventDate, place = :place
-                WHERE id = :id
+            UPDATE Event
+            SET topic = :topic, description = :description, organizer = :organizer, eventDate = :eventDate, place = :place
+            WHERE id = :id
             """;
 
     @Override
