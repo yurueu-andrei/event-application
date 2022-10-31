@@ -11,3 +11,23 @@ services:
       interval: 10s
       timeout: 5s
       retries: 20
+
+  liquibase-event:
+    image: liquibase/liquibase:4.6.2
+    container_name: liquibase-event
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./databases/:/databases/
+    command: >
+      liquibase
+        --logLevel=INFO
+        --contexts=data,test_data
+        --driver=org.postgresql.Driver
+        --classpath="/databases/event/"
+        --changeLogFile="changelog.xml"
+        --url="jdbc:postgresql://postgres:5432/postgres"
+        --username=postgres
+        --password=postgres  
+      update
