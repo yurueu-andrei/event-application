@@ -55,20 +55,14 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public boolean update(Event event) {
         try (Session session = sessionFactory.openSession()) {
-            session.getTransaction().begin();
-            try {
-                session.createQuery(UPDATE_QUERY)
-                        .setParameter(TOPIC_COLUMN, event.getTopic())
-                        .setParameter(DESCRIPTION_COLUMN, event.getDescription())
-                        .setParameter(ORGANIZER_COLUMN, event.getOrganizer())
-                        .setParameter(EVENT_DATE_COLUMN, event.getEventDate())
-                        .setParameter(PLACE_COLUMN, event.getPlace())
-                        .setParameter(ID_COLUMN, event.getId())
-                        .executeUpdate();
-                session.getTransaction().commit();
-            } catch (Exception ex) {
-                session.getTransaction().rollback();
-            }
+            session.createQuery(UPDATE_QUERY)
+                    .setParameter(TOPIC_COLUMN, event.getTopic())
+                    .setParameter(DESCRIPTION_COLUMN, event.getDescription())
+                    .setParameter(ORGANIZER_COLUMN, event.getOrganizer())
+                    .setParameter(EVENT_DATE_COLUMN, event.getEventDate())
+                    .setParameter(PLACE_COLUMN, event.getPlace())
+                    .setParameter(ID_COLUMN, event.getId())
+                    .executeUpdate();
             return true;
         }
     }
