@@ -1,4 +1,4 @@
-cpackage com.yurueu.event.controller;
+package com.yurueu.event.controller;
 
 import com.yurueu.event.dto.EventDto;
 import com.yurueu.event.dto.EventSaveDto;
