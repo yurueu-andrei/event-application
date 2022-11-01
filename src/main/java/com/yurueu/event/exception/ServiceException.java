@@ -1,6 +1,6 @@
 package com.yurueu.event.exception;
 
-public class ServiceException extends RuntimeException{
+public class ServiceException extends RuntimeException {
     public ServiceException(String message) {
         super(message);
     }
