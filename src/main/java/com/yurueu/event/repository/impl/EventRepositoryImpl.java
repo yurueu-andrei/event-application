@@ -76,24 +76,38 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public boolean update(Event event) {
         try (Session session = sessionFactory.openSession()) {
-            session.createQuery(UPDATE_QUERY)
-                    .setParameter(TOPIC_COLUMN, event.getTopic())
-                    .setParameter(DESCRIPTION_COLUMN, event.getDescription())
-                    .setParameter(ORGANIZER_COLUMN, event.getOrganizer())
-                    .setParameter(EVENT_DATE_COLUMN, event.getEventDate())
-                    .setParameter(PLACE_COLUMN, event.getPlace())
-                    .setParameter(ID_COLUMN, event.getId())
-                    .executeUpdate();
-            return true;
+            session.getTransaction().begin();
+            try {
+                session.createQuery(UPDATE_QUERY)
+                        .setParameter(TOPIC_COLUMN, event.getTopic())
+                        .setParameter(DESCRIPTION_COLUMN, event.getDescription())
+                        .setParameter(ORGANIZER_COLUMN, event.getOrganizer())
+                        .setParameter(EVENT_DATE_COLUMN, event.getEventDate())
+                        .setParameter(PLACE_COLUMN, event.getPlace())
+                        .setParameter(ID_COLUMN, event.getId())
+                        .executeUpdate();
+                session.getTransaction().commit();
+                return true;
+            } catch (Exception ex) {
+                session.getTransaction().rollback();
+            }
+            return false;
         }
     }
 
     @Override
     public boolean delete(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            Event event = session.get(Event.class, id);
-            session.delete(event);
-            return true;
+            session.getTransaction().begin();
+            try {
+                Event event = session.get(Event.class, id);
+                session.delete(event);
+                session.getTransaction().commit();
+                return true;
+            } catch (Exception ex) {
+                session.getTransaction().rollback();
+            }
+            return false;
         }
     }
 }
