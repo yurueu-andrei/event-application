@@ -2,6 +2,7 @@ package com.yurueu.event.service.impl;
 
 import com.yurueu.event.dto.EventDto;
 import com.yurueu.event.dto.EventSaveDto;
+import com.yurueu.event.dto.UserRequestFilter;
 import com.yurueu.event.entity.Event;
 import com.yurueu.event.exception.ServiceException;
 import com.yurueu.event.mapper.EventMapper;
@@ -28,9 +29,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> findAll(int limit, int offset) {
+    public List<EventDto> findAll(UserRequestFilter userRequestFilter) {
         try {
-            return eventMapper.toDto(eventRepository.findAll(limit, offset));
+            return eventMapper.toDto(eventRepository.findAll(userRequestFilter));
         } catch (Exception ex) {
             throw new ServiceException("The events were not found", ex);
         }

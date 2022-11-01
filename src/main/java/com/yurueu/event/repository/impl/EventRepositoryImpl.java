@@ -1,5 +1,6 @@
 package com.yurueu.event.repository.impl;
 
+import com.yurueu.event.dto.UserRequestFilter;
 import com.yurueu.event.entity.Event;
 import com.yurueu.event.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 @RequiredArgsConstructor
@@ -16,24 +19,42 @@ public class EventRepositoryImpl implements EventRepository {
     private final SessionFactory sessionFactory;
 
     private static final String SELECT_ALL_QUERY = """
-            SELECT *
-            FROM events
-            LIMIT :limit
-            OFFSET :offset
-            """;
+        SELECT *
+        FROM events
+        WHERE (:isDateFromNull OR event_date >= :dateFrom)
+            AND (:isDateToNull OR event_date <= :dateTo)
+            AND (:isOrganizerNull OR organizer = :organizer)
+            AND (:isTopicNull OR topic = :topic)
+        LIMIT :limit
+        OFFSET :offset
+        """;
+
     private static final String UPDATE_QUERY = """
-            UPDATE Event
-            SET topic = :topic, description = :description, organizer = :organizer, eventDate = :eventDate, place = :place
-            WHERE id = :id
-            """;
+        UPDATE Event
+        SET topic = :topic, description = :description, organizer = :organizer, eventDate = :eventDate, place = :place
+        WHERE id = :id
+        """;
 
     @Override
-    public List<Event> findAll(int limit, int offset) {
+    public List<Event> findAll(UserRequestFilter userRequestFilter) {
         try (Session session = sessionFactory.openSession()) {
             return session.createNativeQuery(SELECT_ALL_QUERY, Event.class)
-                    .setParameter("limit", limit)
-                    .setParameter("offset", offset)
-                    .list();
+                    .setParameter(IS_DATE_FROM_NULL, Objects.isNull(userRequestFilter.getDateFrom()))
+                    .setParameter(DATE_FROM, userRequestFilter.getDateFrom() == null
+                            ? LocalDateTime.now()
+                            : userRequestFilter.getDateFrom())
+                    .setParameter(IS_DATE_TO_NULL, Objects.isNull(userRequestFilter.getDateTo()))
+                    .setParameter(DATE_TO, userRequestFilter.getDateTo() == null
+                            ? LocalDateTime.now()
+                            : userRequestFilter.getDateTo())
+                    .setParameter(IS_ORGANIZER_NULL, Objects.isNull(userRequestFilter.getOrganizer()))
+                    .setParameter(ORGANIZER_COLUMN, String.valueOf(userRequestFilter.getOrganizer()))
+                    .setParameter(IS_TOPIC_NULL, Objects.isNull(userRequestFilter.getTopic()))
+                    .setParameter(TOPIC_COLUMN, String.valueOf(userRequestFilter.getTopic()))
+
+                    .setParameter(LIMIT, userRequestFilter.getLimit())
+                    .setParameter(OFFSET, userRequestFilter.getOffset())
+                    .getResultList();
         }
     }
 
