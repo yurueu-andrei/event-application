@@ -10,10 +10,15 @@ hibernate:
   format_sql: true
 
 entity:
-  path: com.yurueu.event.
+  path: com.yurueu.event.entity
 
 springdoc:
   swagger-ui.path: /swagger-ui
   api-docs.path: /v3/api-docs
   packagesToScan: com.yurueu.event
   pathsToMatch: /**
+
+spring:
+  liquibase:
+    change-log: classpath:databases/event/changelog.xml
+    contexts: data, test_data
