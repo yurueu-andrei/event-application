@@ -41,10 +41,10 @@ public class EventController {
     @GetMapping
     @Operation(summary = "Find all events")
     public List<EventDto> findAll(
-            @Schema(description = "Event date from", example = "2022-12-02T23:41:45.741957")
+            @Schema(description = "Event date from", example = "2022-12-02T23:41")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             @RequestParam(required = false) LocalDateTime dateFrom,
-            @Schema(description = "Event date from", example = "2022-12-02T23:41:45.741957")
+            @Schema(description = "Event date to", example = "2023-12-02T23:41")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             @RequestParam(required = false) LocalDateTime dateTo,
             @Schema(description = "Organizer", example = "Organizer №1")

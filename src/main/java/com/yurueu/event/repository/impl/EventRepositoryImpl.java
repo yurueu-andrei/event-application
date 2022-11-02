@@ -15,9 +15,6 @@ import java.util.Objects;
 @Repository
 @RequiredArgsConstructor
 public class EventRepositoryImpl implements EventRepository {
-
-    private final SessionFactory sessionFactory;
-
     private static final String SELECT_ALL_QUERY = """
         SELECT *
         FROM events
@@ -34,6 +31,8 @@ public class EventRepositoryImpl implements EventRepository {
         SET topic = :topic, description = :description, organizer = :organizer, eventDate = :eventDate, place = :place
         WHERE id = :id
         """;
+
+    private final SessionFactory sessionFactory;
 
     @Override
     public List<Event> findAll(UserRequestFilter userRequestFilter) {

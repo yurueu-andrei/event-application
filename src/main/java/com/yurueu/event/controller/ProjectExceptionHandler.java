@@ -21,7 +21,6 @@ import java.util.Map;
 @RestController
 @ControllerAdvice
 public class ProjectExceptionHandler {
-
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiCallError handleExceptionServerError(

@@ -1,18 +1,6 @@
 package com.yurueu.event.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.yurueu.event.dto.UserRequestFilter;
-import com.yurueu.event.entity.Event;
-import com.yurueu.event.repository.EventRepository;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -46,12 +37,12 @@ class EventControllerTest {
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues
-                .of(
-                    "database.url=" + postgreSQLContainer.getJdbcUrl(),
-                    "database.user=" + postgreSQLContainer.getUsername(),
-                    "database.password=" + postgreSQLContainer.getPassword(),
-                    "spring.liquibase.contexts=data, test")
-                .applyTo(configurableApplicationContext.getEnvironment());
+                    .of(
+                            "database.url=" + postgreSQLContainer.getJdbcUrl(),
+                            "database.user=" + postgreSQLContainer.getUsername(),
+                            "database.password=" + postgreSQLContainer.getPassword(),
+                            "spring.liquibase.contexts=data, test")
+                    .applyTo(configurableApplicationContext.getEnvironment());
         }
     }
 
@@ -146,5 +137,4 @@ class EventControllerTest {
         //then
         Assertions.assertEquals("application/json", mvcResult.getResponse().getContentType());
     }
-
 }

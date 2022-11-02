@@ -34,5 +34,4 @@ public class Event {
 
     @Column(name = "place")
     private String place;
-
 }

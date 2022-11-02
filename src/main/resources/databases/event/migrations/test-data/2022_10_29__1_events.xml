@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-  <changeSet id="1" author="andrei.yurueu1@gmail.com" context="test_data">
-    <comment>Fill the table "events" with test data</comment>
-    <sql>
-        WITH
-            series AS(
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="andrei.yurueu1@gmail.com" context="test_data">
+        <comment>Fill the table "events" with test data</comment>
+        <sql>
+            WITH series AS (
                 SELECT GENERATE_SERIES(1, 20000) sery
             ),
-            count_series AS(
-                SELECT COUNT(*) AS quantity FROM series
-            )
-        INSERT INTO events(topic, description, organizer, event_date, place)
-        SELECT
-            CASE
-                WHEN s.sery % 5 = 0 THEN 'Daily meeting №' || s.sery::VARCHAR
+                 count_series AS (
+                     SELECT COUNT(*) AS quantity
+                     FROM series
+                 )
+            INSERT
+            INTO events(topic, description, organizer, event_date, place)
+            SELECT CASE
+                       WHEN s.sery % 5 = 0 THEN 'Daily meeting №' || s.sery::VARCHAR
       			    WHEN s.sery % 4 = 0 THEN 'VK Fest №' || s.sery::VARCHAR
       			    WHEN s.sery % 3 = 0 THEN 'Sensation №' || s.sery::VARCHAR
       			    WHEN s.sery % 2 = 0 THEN 'UEFA Champions League №' || s.sery::VARCHAR
       			    ELSE 'Valentine Day' || s.sery::VARCHAR
-            END,
+            END
+            ,
       		  CASE
       			    WHEN s.sery % 5 = 0 THEN 'Team meeting to discuss the previous day`s work'
       			    WHEN s.sery % 4 = 0 THEN 'One of the most popular and largest open-air festivals in the country'
       			    WHEN s.sery % 3 = 0 THEN 'An annual electronic music festival'
       			    WHEN s.sery % 2 = 0 THEN 'An annual club football competition contested by top-division European clubs'
       			    ELSE 'The day when lovers express their affection with greetings and gifts'
-            END,
+            END
+            ,
       		  'organizer №' || FLOOR((random() * ((cs.quantity) / 100 - 1) + 1)),
       		  TO_TIMESTAMP(random() * ((1688588880) - 1638088880) + 1638088880),
       		  'place' || FLOOR((random() * ((cs.quantity) / 100 - 1) + 1))
         FROM series s, count_series cs
-    </sql>
-  </changeSet>
+        </sql>
+    </changeSet>
 </databaseChangeLog>
