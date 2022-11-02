@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="andrei.yurueu1@gmail.com" context="test">
+        <comment>Fill the table "events" with test data for test context</comment>
+        <sql>
+            INSERT INTO events(topic, description, organizer, event_date, place)
+            VALUES
+                ('Valentine Day5', 'The day when lovers express their affection with greetings and gifts', 'organizer №1', '2023-05-06 22:17', 'place43'),
+                ('UEFA Champions League №2', 'An annual club football competition contested by top-division European clubs', 'organizer №13', '2021-01-10 18:02', 'place21'),
+                ('Valentine Day1', 'The day when lovers express their affection with greetings and gifts', 'organizer №32', '2022-07-25 12:13', 'place65'),
+                ('Sensation №13', 'An annual electronic music festival', 'organizer №23', '2023-03-01 13:56', 'place15'),
+                ('Valentine Day7', 'The day when lovers express their affection with greetings and gifts', 'organizer №54', '2020-09-17 17:53', 'place75'),
+                ('Sensation №3', 'An annual electronic music festival', 'organizer №71', '2023-12-29 23:24', 'place87'),
+                ('Daily meeting №17', 'Team meeting to discuss the previous day`s work', 'organizer №64', '2022-04-01 22:43', 'place54'),
+                ('Daily meeting №5', 'Team meeting to discuss the previous day`s work', 'organizer №45', '2020-08-21 17:12', 'place100'),
+                ('UEFA Champions League №4', 'An annual club football competition contested by top-division European clubs', 'organizer №101', '2019-03-05 04:43', 'place127'),
+                ('VK Fest №4', 'One of the most popular and largest open-air festivals in the country', 'organizer №82', '2018-10-10 17:41', 'place764'),
+                ('Valentine Day2', 'The day when lovers express their affection with greetings and gifts', 'organizer №99', '2021-11-27 15:25', 'place543'),
+                ('VK Fest №4', 'One of the most popular and largest open-air festivals in the country', 'organizer №301', '2017-06-04 14:29', 'place765'),
+                ('UEFA Champions League №1', 'An annual club football competition contested by top-division European clubs', 'organizer №228', '2020-02-22 05:48', 'place76'),
+                ('UEFA Champions League №7', 'An annual club football competition contested by top-division European clubs', 'organizer №156', '2019-07-11 10:59', 'place978'),
+                ('Sensation №7', 'An annual electronic music festival', 'organizer №500', '2018-11-13 14:38', 'place11')
+        </sql>
+    </changeSet>
+</databaseChangeLog>
