@@ -12,34 +12,14 @@ services:
       timeout: 5s
       retries: 20
 
-  liquibase-event:
-    image: liquibase/liquibase:4.6.2
-    container_name: liquibase-event
-    depends_on:
-      postgres:
-        condition: service_healthy
-    volumes:
-      - ./databases/:/databases/
-    command: >
-      liquibase
-        --logLevel=INFO
-        --contexts=data,test_data
-        --driver=org.postgresql.Driver
-        --classpath="/databases/event/"
-        --changeLogFile="changelog.xml"
-        --url="jdbc:postgresql://postgres:5432/postgres"
-        --username=postgres
-        --password=postgres  
-      update
-
   task-event:
     image: eclipse-temurin:17-alpine
     container_name: task-event
     depends_on:
-      - liquibase-event
+      - postgres
     volumes:
       - ./:/usr/src/myapp
     working_dir: /usr/src/myapp
-    command: sh -c "sleep 5 && java -jar ./build/libs/task-event-0.0.1-SNAPSHOT.jar"
+    command: sh -c "java -jar ./build/libs/task-event-0.0.1-SNAPSHOT.jar"
     ports:
       - "8080:8080"
